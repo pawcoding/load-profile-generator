@@ -17,6 +17,7 @@
     "build": "pnpm exec tsc",
     "dev": "pnpm exec tsc --watch",
     "lint": "pnpm exec eslint --fix --cache",
+    "prepare": "husky",
     "prettier": "pnpm exec prettier . --write --cache"
   },
   "dependencies": {
@@ -35,6 +36,8 @@
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "prettier": "^3.1.1",
     "prettier-plugin-organize-imports": "^4.2.0",
     "prettier-plugin-packagejson": "^2.5.19",

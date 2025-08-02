@@ -8,3 +8,4 @@ pnpm-workspace.yaml
 
 # misc
 .prettierignore
+.husky
