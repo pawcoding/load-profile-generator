@@ -31,11 +31,15 @@ export async function getPagesWithTime(
     today.getMonth() + 1
   }-${today.getDate()}&method=Actions.getPageUrls&flat=1&token_auth=${token}&filter_limit=-1`;
   const response = await fetch(url);
-  const data = await response.json();
+  const data = (await response.json()) as Array<{
+    label: string;
+    avg_time_on_page: number;
+    url: string;
+  }>;
 
   // Extract the data we need
   const pages: Array<Page> = data
-    .map((page: any, index: number) => ({
+    .map((page, index) => ({
       id: index,
       label: page.label,
       avgTimeOnPage: page.avg_time_on_page,

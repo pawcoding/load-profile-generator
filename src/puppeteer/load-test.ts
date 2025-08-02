@@ -101,7 +101,7 @@ export async function loadTest(
   seed: number,
   monitor: boolean = false,
   browser: boolean = false
-) {
+): Promise<void> {
   logger.info(
     chalk.magenta(
       "Starting load test with",
@@ -230,7 +230,7 @@ export async function loadTest(
         !monitor
       );
       await cluster.queue(user);
-    } catch (_e) {
+    } catch {
       i--;
     }
   }

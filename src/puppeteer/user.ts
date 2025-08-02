@@ -28,7 +28,7 @@ export class User {
    *
    * @param pages Array of pages
    */
-  public static setPages(pages: Array<Page>) {
+  public static setPages(pages: Array<Page>): void {
     User._pages = pages;
   }
 
@@ -79,7 +79,7 @@ export class User {
    * @param maxConcurrentUsers Maximum number of concurrent users
    * @param console Whether to log to std.out (default: true)
    */
-  constructor(
+  public constructor(
     host: string,
     id: number,
     page: Page,
@@ -165,7 +165,7 @@ export class User {
         this._logger.info(
           chalk.magenta("Playing video on page", chalk.bold(this._page.label))
         );
-      } catch (e) {
+      } catch {
         this._logger.error(`Failed to play video on page ${this._page.label}`);
       }
     } else if (this.url.includes("podcasts")) {
@@ -199,7 +199,7 @@ export class User {
               chalk.bold(this._page.label)
             )
           );
-        } catch (e) {
+        } catch {
           this._logger.error(
             `Failed to play podcast on page ${this._page.label}`
           );
@@ -287,14 +287,16 @@ export class User {
         try {
           await this._navigateToCommonFollowingPage(page, followingPage);
           return;
-        } catch (e) {}
+        } catch {
+          // No-op
+        }
       }
     }
 
     try {
       // Navigate to random other page
       await this._navigateToRandomOtherPage(page);
-    } catch (e) {
+    } catch {
       this._done = true;
     }
   }

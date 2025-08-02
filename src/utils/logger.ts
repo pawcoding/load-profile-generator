@@ -100,7 +100,7 @@ export class Logger {
    * @param console Whether to log to std.out (default: true)
    * @param maxConcurrentUsers Maximum number of users to log to std.out (default: 10)
    */
-  constructor(
+  public constructor(
     prefix: string,
     userId?: number,
     console = true,
@@ -127,7 +127,7 @@ export class Logger {
    * Write a message to std.out as info
    * and to the log file
    */
-  public info(message: any): void {
+  public info(message: unknown): void {
     // Write unformatted message to log file
     const now = new Date();
     Logger.logs.push(
@@ -161,7 +161,7 @@ export class Logger {
    * Write a message to std.err as error
    * and to the log file
    */
-  public error(message: any): void {
+  public error(message: unknown): void {
     // Write unformatted message to log file
     const now = new Date();
     Logger.logs.push(

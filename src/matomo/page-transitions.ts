@@ -28,7 +28,10 @@ export async function getPageTransition(
     today.getMonth() + 1
   }-${today.getDate()}&format=JSON&token_auth=${token}&force_api_session=1`;
   const response = await fetch(url);
-  const data = await response.json();
+  const data = (await response.json()) as {
+    pageMetrics: { entries: number; exits: number; loops: number };
+    followingPages: Array<{ label: string; referrals: number }>;
+  };
 
   // Extract the data we need
   page.transition = {
@@ -37,9 +40,9 @@ export async function getPageTransition(
     loops: data.pageMetrics.loops,
     otherNavigations:
       data.followingPages.find(
-        (followingPage: any) => followingPage.label === "Others"
+        (followingPage) => followingPage.label === "Others"
       )?.referrals ?? 0,
-    followingPages: data.followingPages.map((followingPage: any) => ({
+    followingPages: data.followingPages.map((followingPage) => ({
       label: followingPage.label,
       navigations: followingPage.referrals
     }))

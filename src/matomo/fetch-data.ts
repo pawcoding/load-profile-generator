@@ -94,8 +94,7 @@ export async function fetchData(
   );
 
   // Add missing ids to transition pages
-  for (let i = 0; i < pagesWithTransitions.length; i++) {
-    const page = pagesWithTransitions[i];
+  for (const page of pagesWithTransitions) {
     if (page.transition) {
       page.transition.followingPages = page.transition.followingPages.map(
         (followingPage) => ({
