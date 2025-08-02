@@ -100,7 +100,7 @@ After the behavioral data was loaded, the load test itself starts. First the sta
 4. Do a random action (if simulation end is not reached)
    1. Leave the page (page exits)
    2. Reload the page (page loops)
-   3. Navigate to a common following page (transitions, searching for `a[href="${nextLabel}"]` and clicking
+   3. Navigate to a common following page (transitions, searching for `a[href="${nextLabel}"]` and clicking)
    4. Navigate to a random other page (page navigations, only on same domain and not in common transitions)
 
 After finishing the load test (max time is reached or all users are done and queue is empty) the tool waits for the cluster to idle and closes the browsers.
