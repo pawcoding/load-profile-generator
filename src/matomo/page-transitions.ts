@@ -1,9 +1,8 @@
-import chalk from 'chalk'
+import chalk from "chalk";
+import { Page } from "../types/page";
+import { Logger } from "../utils/logger.js";
 
-import { Page } from '../types/page'
-import { Logger } from '../utils/logger.js'
-
-const logger = new Logger('mptr')
+const logger = new Logger("mptr");
 
 /**
  * Get page transition data from Matomo and enrich the page object.
@@ -17,19 +16,19 @@ export async function getPageTransition(
   page: Page,
   matomo: string,
   siteId: number,
-  token: string,
+  token: string
 ): Promise<Page> {
-  const start = process.hrtime()
+  const start = process.hrtime();
 
   // Fetch page transition data from Matomo
-  const today = new Date()
+  const today = new Date();
   const url = `https://${matomo}/index.php?module=API&method=Transitions.getTransitionsForAction&actionType=url&actionName=${encodeURIComponent(
-    page.url,
+    page.url
   )}&idSite=${siteId}&period=range&date=2023-09-01,${today.getFullYear()}-${
     today.getMonth() + 1
-  }-${today.getDate()}&format=JSON&token_auth=${token}&force_api_session=1`
-  const response = await fetch(url)
-  const data = await response.json()
+  }-${today.getDate()}&format=JSON&token_auth=${token}&force_api_session=1`;
+  const response = await fetch(url);
+  const data = await response.json();
 
   // Extract the data we need
   page.transition = {
@@ -38,28 +37,28 @@ export async function getPageTransition(
     loops: data.pageMetrics.loops,
     otherNavigations:
       data.followingPages.find(
-        (followingPage: any) => followingPage.label === 'Others',
+        (followingPage: any) => followingPage.label === "Others"
       )?.referrals ?? 0,
     followingPages: data.followingPages.map((followingPage: any) => ({
       label: followingPage.label,
-      navigations: followingPage.referrals,
-    })),
-  }
+      navigations: followingPage.referrals
+    }))
+  };
 
   // Log progress
-  const end = process.hrtime(start)
+  const end = process.hrtime(start);
   logger.info(
     chalk.green(
-      'Got transition data for page',
+      "Got transition data for page",
       chalk.bold(
         `"${page.label.substring(0, 40)}${
-          page.label.length >= 40 ? '...' : ''
-        }"`,
+          page.label.length >= 40 ? "..." : ""
+        }"`
       ),
-      'in',
-      chalk.bold(`${end[0]}.${Math.round(end[1] / 1000000)} s`),
-    ),
-  )
+      "in",
+      chalk.bold(`${end[0]}.${Math.round(end[1] / 1000000)} s`)
+    )
+  );
 
-  return page
+  return page;
 }

@@ -1,22 +1,21 @@
-import chalk from 'chalk'
-import { readFile } from 'fs/promises'
-import path from 'path'
+import chalk from "chalk";
+import { readFile } from "fs/promises";
+import path from "path";
+import { Page } from "../types/page";
+import { Logger } from "../utils/logger.js";
 
-import { Page } from '../types/page'
-import { Logger } from '../utils/logger.js'
-
-const logger = new Logger('cipt')
+const logger = new Logger("cipt");
 
 /**
  * Import page data from CSV file
  */
-export async function readPageCSV(): Promise<Page[]> {
-  logger.info(chalk.yellow('Importing page data from CSV file'))
+export async function readPageCSV(): Promise<Array<Page>> {
+  logger.info(chalk.yellow("Importing page data from CSV file"));
 
-  const pagesCsv = await readFile(path.join(process.cwd(), 'lpg', 'pages.csv'))
+  const pagesCsv = await readFile(path.join(process.cwd(), "lpg", "pages.csv"));
   const pages = pagesCsv
     .toString()
-    .split('\n')
+    .split("\n")
     .slice(1)
     .map((row) => {
       const [
@@ -28,8 +27,8 @@ export async function readPageCSV(): Promise<Page[]> {
         exits,
         loops,
         navigations,
-        interactionRate,
-      ] = row.split(',')
+        interactionRate
+      ] = row.split(",");
       return {
         id: Number(id),
         label,
@@ -40,14 +39,14 @@ export async function readPageCSV(): Promise<Page[]> {
           exits: Number(exits),
           loops: Number(loops),
           otherNavigations: Number(navigations),
-          followingPages: [],
+          followingPages: []
         },
-        interactionRate: Number(interactionRate) / 100,
-      }
-    })
+        interactionRate: Number(interactionRate) / 100
+      };
+    });
 
   logger.info(
-    chalk.yellow('Successfully imported', chalk.bold(`${pages.length} pages`)),
-  )
-  return pages
+    chalk.yellow("Successfully imported", chalk.bold(`${pages.length} pages`))
+  );
+  return pages;
 }

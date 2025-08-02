@@ -5,9 +5,9 @@
  * @param predicate Predicate function to filter items
  */
 export async function asyncFilter<T>(
-  arr: T[],
-  predicate: (item: T) => Promise<boolean>,
-): Promise<T[]> {
-  const results = await Promise.all(arr.map(predicate))
-  return arr.filter((_v, index) => results[index])
+  arr: Array<T>,
+  predicate: (item: T) => Promise<boolean>
+): Promise<Array<T>> {
+  const results = await Promise.all(arr.map(predicate));
+  return arr.filter((_v, index) => results[index]);
 }

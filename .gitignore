@@ -1,5 +1,6 @@
 # Dependencies
 node_modules
+.eslintcache
 
 # Environment Variables
 .env
